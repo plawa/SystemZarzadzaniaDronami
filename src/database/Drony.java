@@ -11,6 +11,8 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -34,11 +36,12 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Drony.findById", query = "SELECT d FROM Drony d WHERE d.id = :id"),
     @NamedQuery(name = "Drony.findByCzyAktywny", query = "SELECT d FROM Drony d WHERE d.czyAktywny = :czyAktywny"),
     @NamedQuery(name = "Drony.findByStanStreaminguVideo", query = "SELECT d FROM Drony d WHERE d.stanStreaminguVideo = :stanStreaminguVideo"),
-    @NamedQuery(name = "Drony.findByCzyAdokowany", query = "SELECT d FROM Drony d WHERE d.czyAdokowany = :czyAdokowany"),
+    @NamedQuery(name = "Drony.findByCzyZadokowany", query = "SELECT d FROM Drony d WHERE d.czyZadokowany = :czyZadokowany"),
     @NamedQuery(name = "Drony.findByPrzebieg", query = "SELECT d FROM Drony d WHERE d.przebieg = :przebieg")})
 public class Drony implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
@@ -46,8 +49,8 @@ public class Drony implements Serializable {
     private Short czyAktywny;
     @Column(name = "stan_streamingu_video")
     private Short stanStreaminguVideo;
-    @Column(name = "czy_adokowany")
-    private Short czyAdokowany;
+    @Column(name = "czy_zadokowany")
+    private Short czyZadokowany;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "Przebieg")
     private Float przebieg;
@@ -94,12 +97,12 @@ public class Drony implements Serializable {
         this.stanStreaminguVideo = stanStreaminguVideo;
     }
 
-    public Short getCzyAdokowany() {
-        return czyAdokowany;
+    public Short getCzyZadokowany() {
+        return czyZadokowany;
     }
 
-    public void setCzyAdokowany(Short czyAdokowany) {
-        this.czyAdokowany = czyAdokowany;
+    public void setCzyZadokowany(Short czyZadokowany) {
+        this.czyZadokowany = czyZadokowany;
     }
 
     public Float getPrzebieg() {
