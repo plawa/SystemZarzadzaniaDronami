@@ -21,12 +21,13 @@ public class StacjePanel extends javax.swing.JPanel {
      */
     public StacjePanel() {
         initComponents();
+        kontroler = new DatabaseController();
         refreshTableContent();
     }
 
     private void refreshTableContent(){
         DefaultTableModel model = (DefaultTableModel) jTable.getModel();
-        
+
         List<Stacja> stacje = kontroler.getAllStacje();
         for (Stacja stacja : stacje){
            model.addRow(new Object[]{stacja.getNazwastacji(), stacja.getAttitude(), 
@@ -91,5 +92,5 @@ public class StacjePanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane;
     private javax.swing.JTable jTable;
     // End of variables declaration//GEN-END:variables
-    private final DatabaseController kontroler = new DatabaseController();
+    private DatabaseController kontroler;
 }

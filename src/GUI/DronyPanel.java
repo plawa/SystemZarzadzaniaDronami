@@ -21,12 +21,13 @@ public class DronyPanel extends javax.swing.JPanel {
      */
     public DronyPanel() {
         initComponents();
+        kontroler = new DatabaseController();
         refreshTableContent();
     }
     
     private void refreshTableContent(){
         DefaultTableModel model = (DefaultTableModel) jTable.getModel();
-        
+
         List<Drony> drony = kontroler.getAllDrony();
         for (Drony dron : drony){
            model.addRow(new Object[]{dron.getCzyAktywny(), dron.getCzyZadokowany(), 
@@ -89,5 +90,5 @@ public class DronyPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane;
     private javax.swing.JTable jTable;
     // End of variables declaration//GEN-END:variables
-    private final DatabaseController kontroler = new DatabaseController();
+    private DatabaseController kontroler;
 }

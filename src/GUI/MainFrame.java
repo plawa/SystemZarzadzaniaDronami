@@ -30,11 +30,14 @@ public class MainFrame extends javax.swing.JFrame {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         newJPanel1 = new GUI.DronyPanel();
         newJPanel12 = new GUI.StacjePanel();
+        trasyPanel1 = new GUI.TrasyPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("System Zarządzania Dronami");
 
         jTabbedPane1.addTab("Drony", newJPanel1);
         jTabbedPane1.addTab("Stacje", newJPanel12);
+        jTabbedPane1.addTab("Trasy", trasyPanel1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -89,5 +92,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private GUI.DronyPanel newJPanel1;
     private GUI.StacjePanel newJPanel12;
+    private GUI.TrasyPanel trasyPanel1;
     // End of variables declaration//GEN-END:variables
 }

@@ -2,6 +2,7 @@
 package controllers;
 
 import database.Drony;
+import database.Koordynaty;
 import database.Stacja;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
@@ -34,5 +35,10 @@ public class DatabaseController {
 
     public List<Stacja> getAllStacje() {
         return stacjaControler.findStacjaEntities();
+    }
+    
+    public List<Koordynaty> getKoordynatyDrona(Drony dron){
+        //TODO!
+        return null;
     }
 }
