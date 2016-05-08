@@ -23,6 +23,7 @@ public class MainFrame extends javax.swing.JFrame {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         dronyPanel1 = new GUI.DronyPanel();
         stacjePanel1 = new GUI.StacjePanel();
+        punktyKontrolnePanel = new GUI.PunktyKontrolnePanel();
         trasyPanel1 = new GUI.TrasyPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -30,6 +31,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Drony", dronyPanel1);
         jTabbedPane1.addTab("Stacje", stacjePanel1);
+        jTabbedPane1.addTab("Punkty kontrolne", punktyKontrolnePanel);
         jTabbedPane1.addTab("Trasy", trasyPanel1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -86,6 +88,7 @@ public class MainFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private GUI.DronyPanel dronyPanel1;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private GUI.PunktyKontrolnePanel punktyKontrolnePanel;
     private GUI.StacjePanel stacjePanel1;
     private GUI.TrasyPanel trasyPanel1;
     // End of variables declaration//GEN-END:variables

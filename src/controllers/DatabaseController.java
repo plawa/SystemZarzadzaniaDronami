@@ -40,8 +40,7 @@ public class DatabaseController {
     }
     
     public List<PunktyKontrolne> getPunktyKontrolneDrona(Drony dron){
-        List<PunktyKontrolne> lista = new ArrayList(dron.getPunktyKontrolneCollection());
-        return lista;
+        return new ArrayList(dron.getPunktyKontrolneCollection());
     }
     
     public List<Stacja> getAllStacje() {

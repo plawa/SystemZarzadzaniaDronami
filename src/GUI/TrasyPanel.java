@@ -5,11 +5,14 @@
  */
 package GUI;
 
-import controllers.DatabaseController;
-import database.Drony;
-import database.PunktyKontrolne;
-import java.util.List;
-import javax.swing.table.DefaultTableModel;
+import coordalgorythm.CoordAlgorythm;
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 
 /**
  *
@@ -17,31 +20,16 @@ import javax.swing.table.DefaultTableModel;
  */
 public class TrasyPanel extends javax.swing.JPanel {
 
+    /**
+     * Creates new form TrasyPanel
+     */
     public TrasyPanel() {
+        this.fc = new JFileChooser();       
+        this.coordAlgo = new CoordAlgorythm();
         initComponents();
-        kontroler = new DatabaseController();
-        initializeCombobox();
+
     }
 
-    private void initializeCombobox(){
-        List<Drony> drony = kontroler.getAllDrony();
-        String [] nazwyDronow = new String[drony.size()];
-        for (int i = 0; i < drony.size(); i++){
-            nazwyDronow[i] = drony.get(i).toString();
-        }
-        jComboBox.setModel(new javax.swing.DefaultComboBoxModel(nazwyDronow));
-    }
-    
-    private void fulfillTable(Drony dron){
-        DefaultTableModel model = (DefaultTableModel) jTable.getModel();
-        model.setRowCount(0);
-        List<PunktyKontrolne> punktyKontrolneDrona = kontroler.getPunktyKontrolneDrona(dron);
-        for (PunktyKontrolne punkt : punktyKontrolneDrona){
-            model.addRow(new Object[]{punkt.getLatitude(), punkt.getLongitude(),
-                punkt.getAttitude(), punkt.getCzyOsiagnieto()!=0, punkt.getCzasWyznaczenia()});
-        }
-    }
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -51,51 +39,55 @@ public class TrasyPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable = new javax.swing.JTable();
-        jComboBox = new javax.swing.JComboBox();
-        jButton1 = new javax.swing.JButton();
+        jDialog1 = new javax.swing.JDialog();
+        jTextPath = new javax.swing.JTextField();
+        jButtonBrowse = new javax.swing.JButton();
+        jTextOdleglosc = new javax.swing.JTextField();
+        jLabelInfoOdleglosc = new javax.swing.JLabel();
+        jButtonGeneruj = new javax.swing.JButton();
 
-        jTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+        javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
+        jDialog1.getContentPane().setLayout(jDialog1Layout);
+        jDialog1Layout.setHorizontalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        jDialog1Layout.setVerticalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
 
-            },
-            new String [] {
-                "Długość geogr.", "Szerokość geogr.", "Wysokość", "Osiągnięty", "Wyznaczono"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class, java.lang.Object.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
-            };
+        setPreferredSize(new java.awt.Dimension(472, 452));
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane1.setViewportView(jTable);
-        if (jTable.getColumnModel().getColumnCount() > 0) {
-            jTable.getColumnModel().getColumn(3).setPreferredWidth(40);
-            jTable.getColumnModel().getColumn(4).setPreferredWidth(150);
-        }
-
-        jComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "--błąd inicjalizacji--" }));
-        jComboBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBoxActionPerformed(evt);
+        jTextPath.setText("wprowadź ścieżkę do pliku .kml z zapisanym śladem trasy");
+        jTextPath.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTextPathFocusGained(evt);
             }
         });
 
-        jButton1.setText("Pokaż trasę");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonBrowse.setText("Przeglądaj...");
+        jButtonBrowse.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButtonBrowseActionPerformed(evt);
+            }
+        });
+
+        jTextOdleglosc.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextOdleglosc.setText("20");
+        jTextOdleglosc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextOdlegloscActionPerformed(evt);
+            }
+        });
+
+        jLabelInfoOdleglosc.setText("podaj odległość przesunięcia śladu (m):");
+
+        jButtonGeneruj.setText("Generuj");
+        jButtonGeneruj.setEnabled(false);
+        jButtonGeneruj.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonGenerujActionPerformed(evt);
             }
         });
 
@@ -105,45 +97,72 @@ public class TrasyPanel extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addComponent(jLabelInfoOdleglosc, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(37, 37, 37)
+                        .addComponent(jTextOdleglosc, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jButtonGeneruj, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jTextPath, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonBrowse, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)))
+                .addGap(22, 22, 22))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jComboBox)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextPath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonBrowse))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextOdleglosc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelInfoOdleglosc)
+                    .addComponent(jButtonGeneruj))
+                .addContainerGap(389, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        //wczytuje punkty kontrolne przyporządkowane do wybranego w comboBoxie drona
-        Drony dron = kontroler.getDron(jComboBox.getSelectedIndex());
-        fulfillTable(dron);
-        //JOptionPane.showMessageDialog(this, (PunktyKontrolne)punktyKontrolne[0] + " " + punktyKontrolne[1]);
-        
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void jButtonBrowseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBrowseActionPerformed
+        int returnVal = fc.showOpenDialog(this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            jButtonGeneruj.setEnabled(true);
+        }
+    }//GEN-LAST:event_jButtonBrowseActionPerformed
 
-    private void jComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxActionPerformed
+    private void jTextPathFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextPathFocusGained
+       jTextPath.setText("");
+    }//GEN-LAST:event_jTextPathFocusGained
 
-    }//GEN-LAST:event_jComboBoxActionPerformed
+    private void jButtonGenerujActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGenerujActionPerformed
+        try {
+            File selectedFile = fc.getSelectedFile();
+            double odleglosc = Double.parseDouble(jTextOdleglosc.getText())/70000.0  ;
+            coordAlgo.generateNewKMLFile(selectedFile, odleglosc);
+            Desktop.getDesktop().open(Paths.get(selectedFile.getPath() + "new.kml").toFile());
+            jButtonGeneruj.setEnabled(false);
+        } catch (IOException ex) {
+            Logger.getLogger(TrasyPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButtonGenerujActionPerformed
+
+    private void jTextOdlegloscActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextOdlegloscActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextOdlegloscActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox jComboBox;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable;
+    private javax.swing.JButton jButtonBrowse;
+    private javax.swing.JButton jButtonGeneruj;
+    private javax.swing.JDialog jDialog1;
+    private javax.swing.JLabel jLabelInfoOdleglosc;
+    private javax.swing.JTextField jTextOdleglosc;
+    private javax.swing.JTextField jTextPath;
     // End of variables declaration//GEN-END:variables
-    private final DatabaseController kontroler;
+    private final coordalgorythm.CoordAlgorythm coordAlgo;
+    private final JFileChooser fc;
 }

@@ -44,6 +44,9 @@ public class StacjePanel extends javax.swing.JPanel {
 
         jScrollPane = new javax.swing.JScrollPane();
         jTable = new javax.swing.JTable();
+        jButtonDodaj = new javax.swing.JButton();
+        jButtonUsun = new javax.swing.JButton();
+        jButtonInfo = new javax.swing.JButton();
 
         jTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -66,28 +69,51 @@ public class StacjePanel extends javax.swing.JPanel {
             jTable.getColumnModel().getColumn(3).setResizable(false);
         }
 
+        jButtonDodaj.setText("Zarejestruj nową stację");
+
+        jButtonUsun.setText("Wyrejestruj zaznaczoną stację");
+
+        jButtonInfo.setText("Więcej informacji");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(jButtonDodaj)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(jButtonUsun)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonInfo)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jButtonDodaj)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonInfo)
+                    .addComponent(jButtonUsun))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonDodaj;
+    private javax.swing.JButton jButtonInfo;
+    private javax.swing.JButton jButtonUsun;
     private javax.swing.JScrollPane jScrollPane;
     private javax.swing.JTable jTable;
     // End of variables declaration//GEN-END:variables
-    private final DatabaseController kontroler;
+    private DatabaseController kontroler;
 }

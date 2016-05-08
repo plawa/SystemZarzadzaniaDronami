@@ -52,6 +52,9 @@ public class DronyPanel extends javax.swing.JPanel {
 
         jScrollPane = new javax.swing.JScrollPane();
         jTable = new javax.swing.JTable();
+        jButtonUsun = new javax.swing.JButton();
+        jButtonDodaj = new javax.swing.JButton();
+        jButtonPowrot = new javax.swing.JButton();
 
         jTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -83,28 +86,68 @@ public class DronyPanel extends javax.swing.JPanel {
             jTable.getColumnModel().getColumn(4).setPreferredWidth(40);
         }
 
+        jButtonUsun.setText("Usuń zaznaczonego drona");
+        jButtonUsun.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonUsunActionPerformed(evt);
+            }
+        });
+
+        jButtonDodaj.setText("Dodaj nowego drona");
+        jButtonDodaj.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDodajActionPerformed(evt);
+            }
+        });
+
+        jButtonPowrot.setText("Wydaj polecenie powrotu do bazy");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButtonUsun)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonPowrot))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButtonDodaj)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(6, 6, 6)
+                .addComponent(jButtonDodaj)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonUsun)
+                    .addComponent(jButtonPowrot))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButtonDodajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDodajActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonDodajActionPerformed
+
+    private void jButtonUsunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUsunActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonUsunActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonDodaj;
+    private javax.swing.JButton jButtonPowrot;
+    private javax.swing.JButton jButtonUsun;
     private javax.swing.JScrollPane jScrollPane;
     private javax.swing.JTable jTable;
     // End of variables declaration//GEN-END:variables
-    private final DatabaseController kontroler;
+    private DatabaseController kontroler;
 }

@@ -1,5 +1,6 @@
 package coordalgorythm;
 
+import java.io.File;
 import java.io.IOException;
 import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;
@@ -15,14 +16,27 @@ import java.util.logging.Logger;
 
 public class CoordAlgorythm {
 
-    private ArrayList<Coordinates> coordinatesBase = new ArrayList<>();
-    private ArrayList<Coordinates> coordinatesNewBase = new ArrayList<>();
+    private final ArrayList<Coordinates> coordinatesBase = new ArrayList<>();
+    private final ArrayList<Coordinates> coordinatesNewBase = new ArrayList<>();
+    private double odleglosc;  
+
+    public double getOdleglosc() {
+        return odleglosc;
+    }
+
+    public void setOdleglosc(double odleglosc) {
+        this.odleglosc = odleglosc;
+    }
+
+    public CoordAlgorythm() {
+        this.odleglosc = 0.0003;
+    }
     
     //jako parametr podajemy trzy punkty tworzące łamaną
     //punkt 'b' - środek łamanej
     public Coordinates calculateMiddleOffsetPoint(Coordinates a, Coordinates b, Coordinates c){
             
-        double odleglosc = 0.0003; //odległość we współrzędnych (0.0001 ~ 7 metrów)
+        
         //** prosta a-b (12) **
         //obliczamy środek odcinka prostej
         double centerX = (a.getX() + b.getX())/2;
@@ -98,18 +112,12 @@ public class CoordAlgorythm {
         }
     }
     
-    public static void main(String[] args) {
-        CoordAlgorythm fasada = new CoordAlgorythm();
+    public void generateNewKMLFile(File file, double offset){
+        setOdleglosc(offset);
         
-        Scanner stdin = new Scanner(System.in);
-        System.out.println("Podaj nazwę pliku źródłowego (.kml): ");
-        String fileName = stdin.nextLine();
-    
-        Path oldPath = Paths.get(fileName); //plik źródłowy
-        Path newPath = Paths.get("new.kml");    //plik docelowy
-        
+        Path newPath = Paths.get(file.getPath() + "new.kml");
         String koordynaty = "";
-        try (Scanner scanner = new Scanner(oldPath)){
+        try (Scanner scanner = new Scanner(file)){
             while(scanner.hasNextLine()){
                 String line = scanner.nextLine();
                 if (line.contains("<coordinates>")){
@@ -126,26 +134,39 @@ public class CoordAlgorythm {
             String[] dane = koord.split(",");
             double x = Double.parseDouble(dane[0]);
             double y = Double.parseDouble(dane[1]);
-            fasada.coordinatesBase.add(new Coordinates(x, y));
+            coordinatesBase.add(new Coordinates(x, y));
         }
         //dodawanie pojedynczych koordynatów, dobre do testów:
         //fasada.coordinatesBase.add(new Coordinates(20, 50));
         
-        fasada.runAlgorithm();
+        runAlgorithm();
      
         String newKoordynaty = "";
-        for(Coordinates coord : fasada.coordinatesNewBase)
+        for(Coordinates coord : coordinatesNewBase)
                 newKoordynaty += coord;
         
         try {
             Charset charset = StandardCharsets.UTF_8;
-            String content = new String(Files.readAllBytes(oldPath), charset);
+            String content = new String(Files.readAllBytes(file.toPath()), charset);
             content = content.replaceFirst(koordynaty, newKoordynaty);
             Files.write(newPath, content.getBytes(charset));
         } catch (IOException ex) {
             Logger.getLogger(CoordAlgorythm.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+       
+    }
+    
+    public static void main(String[] args) {
+        CoordAlgorythm fasada = new CoordAlgorythm();
+        
+        Scanner stdin = new Scanner(System.in);
+        System.out.println("Podaj nazwę pliku źródłowego (.kml): ");
+        String fileName = stdin.nextLine();
+    
+        Path oldPath = Paths.get(fileName); //plik źródłowy
+        
+        fasada.generateNewKMLFile(oldPath.toFile(), 0.0005);
+        
     }
     
 }
