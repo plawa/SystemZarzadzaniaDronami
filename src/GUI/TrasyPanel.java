@@ -7,9 +7,9 @@ package GUI;
 
 import controllers.DatabaseController;
 import database.Drony;
-import static database.ParametryDronow_.model;
+import database.PunktyKontrolne;
 import java.util.List;
-import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -17,9 +17,6 @@ import javax.swing.JOptionPane;
  */
 public class TrasyPanel extends javax.swing.JPanel {
 
-    /**
-     * Creates new form TrasyPanel
-     */
     public TrasyPanel() {
         initComponents();
         kontroler = new DatabaseController();
@@ -35,6 +32,16 @@ public class TrasyPanel extends javax.swing.JPanel {
         jComboBox.setModel(new javax.swing.DefaultComboBoxModel(nazwyDronow));
     }
     
+    private void fulfillTable(Drony dron){
+        DefaultTableModel model = (DefaultTableModel) jTable.getModel();
+        model.setRowCount(0);
+        List<PunktyKontrolne> punktyKontrolneDrona = kontroler.getPunktyKontrolneDrona(dron);
+        for (PunktyKontrolne punkt : punktyKontrolneDrona){
+            model.addRow(new Object[]{punkt.getLatitude(), punkt.getLongitude(),
+                punkt.getAttitude(), punkt.getCzyOsiagnieto()!=0, punkt.getCzasWyznaczenia()});
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -45,29 +52,40 @@ public class TrasyPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTable = new javax.swing.JTable();
         jComboBox = new javax.swing.JComboBox();
         jButton1 = new javax.swing.JButton();
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Długość geogr.", "Szerokość geogr.", "Wysokość", "Osiągnięty"
+                "Długość geogr.", "Szerokość geogr.", "Wysokość", "Osiągnięty", "Wyznaczono"
             }
         ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class, java.lang.Object.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(jTable);
+        if (jTable.getColumnModel().getColumnCount() > 0) {
+            jTable.getColumnModel().getColumn(3).setPreferredWidth(40);
+            jTable.getColumnModel().getColumn(4).setPreferredWidth(150);
+        }
 
-        jComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "--nie zainicjalizowano--" }));
+        jComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "--błąd inicjalizacji--" }));
         jComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxActionPerformed(evt);
@@ -87,15 +105,13 @@ public class TrasyPanel extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -111,9 +127,10 @@ public class TrasyPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        int selectedIndex = jComboBox.getSelectedIndex();
-        List<Drony> drony = kontroler.getAllDrony();
-        drony.get(selectedIndex);
+        //wczytuje punkty kontrolne przyporządkowane do wybranego w comboBoxie drona
+        Drony dron = kontroler.getDron(jComboBox.getSelectedIndex());
+        fulfillTable(dron);
+        //JOptionPane.showMessageDialog(this, (PunktyKontrolne)punktyKontrolne[0] + " " + punktyKontrolne[1]);
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -126,7 +143,7 @@ public class TrasyPanel extends javax.swing.JPanel {
     private javax.swing.JButton jButton1;
     private javax.swing.JComboBox jComboBox;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable;
     // End of variables declaration//GEN-END:variables
-    private DatabaseController kontroler;
+    private final DatabaseController kontroler;
 }

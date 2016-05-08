@@ -16,9 +16,6 @@ import javax.swing.table.DefaultTableModel;
  */
 public class DronyPanel extends javax.swing.JPanel {
 
-    /**
-     * Creates new form NewJPanel
-     */
     public DronyPanel() {
         initComponents();
         kontroler = new DatabaseController();
@@ -30,8 +27,15 @@ public class DronyPanel extends javax.swing.JPanel {
 
         List<Drony> drony = kontroler.getAllDrony();
         for (Drony dron : drony){
-           model.addRow(new Object[]{dron.getCzyAktywny(), dron.getCzyZadokowany(), 
-               dron.getIDstacji().getNazwastacji(), dron.getPrzebieg()});
+            String nazwa = "brak danych";
+            if (dron.getParametryDronow() != null)
+                nazwa = dron.getParametryDronow().getModel();
+            String stacja = dron.getIDstacji().getNazwastacji();
+            Float przebieg = dron.getPrzebieg();
+            boolean czyAktywny = dron.getCzyAktywny()!=0;
+            boolean czyZadokowany = dron.getCzyZadokowany()!=0;
+            
+            model.addRow(new Object[]{nazwa, stacja, przebieg, czyAktywny, czyZadokowany });
         }
         
     }
@@ -54,18 +58,30 @@ public class DronyPanel extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Aktywny", "Zadokowany", "Stacja", "Przebieg"
+                "Nazwa drona", "Stacja", "Przebieg", "Aktywny", "Zadokowany"
             }
         ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.Float.class, java.lang.Boolean.class, java.lang.Boolean.class
             };
+            boolean[] canEdit = new boolean [] {
+                true, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
         jScrollPane.setViewportView(jTable);
+        if (jTable.getColumnModel().getColumnCount() > 0) {
+            jTable.getColumnModel().getColumn(0).setPreferredWidth(150);
+            jTable.getColumnModel().getColumn(3).setPreferredWidth(40);
+            jTable.getColumnModel().getColumn(4).setPreferredWidth(40);
+        }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -90,5 +106,5 @@ public class DronyPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane;
     private javax.swing.JTable jTable;
     // End of variables declaration//GEN-END:variables
-    private DatabaseController kontroler;
+    private final DatabaseController kontroler;
 }

@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package GUI;
 
 /**
@@ -11,9 +7,6 @@ package GUI;
  */
 public class MainFrame extends javax.swing.JFrame {
 
-    /**
-     * Creates new form MainFrame
-     */
     public MainFrame() {
         initComponents();
     }
@@ -28,15 +21,15 @@ public class MainFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
-        newJPanel1 = new GUI.DronyPanel();
-        newJPanel12 = new GUI.StacjePanel();
+        dronyPanel1 = new GUI.DronyPanel();
+        stacjePanel1 = new GUI.StacjePanel();
         trasyPanel1 = new GUI.TrasyPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("System Zarządzania Dronami");
 
-        jTabbedPane1.addTab("Drony", newJPanel1);
-        jTabbedPane1.addTab("Stacje", newJPanel12);
+        jTabbedPane1.addTab("Drony", dronyPanel1);
+        jTabbedPane1.addTab("Stacje", stacjePanel1);
         jTabbedPane1.addTab("Trasy", trasyPanel1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -47,7 +40,9 @@ public class MainFrame extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -89,9 +84,9 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private GUI.DronyPanel dronyPanel1;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private GUI.DronyPanel newJPanel1;
-    private GUI.StacjePanel newJPanel12;
+    private GUI.StacjePanel stacjePanel1;
     private GUI.TrasyPanel trasyPanel1;
     // End of variables declaration//GEN-END:variables
 }

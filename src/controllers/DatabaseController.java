@@ -3,7 +3,9 @@ package controllers;
 
 import database.Drony;
 import database.Koordynaty;
+import database.PunktyKontrolne;
 import database.Stacja;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -29,16 +31,22 @@ public class DatabaseController {
         return dronyControler.findDronyEntities();
     }
     
+    public Drony getDron(int index){
+        return dronyControler.findDronyEntities().get(index);
+    }
+    
     public void addDron(){
        // Drony nowyDron = new Drony()
     }
-
+    
+    public List<PunktyKontrolne> getPunktyKontrolneDrona(Drony dron){
+        List<PunktyKontrolne> lista = new ArrayList(dron.getPunktyKontrolneCollection());
+        return lista;
+    }
+    
     public List<Stacja> getAllStacje() {
         return stacjaControler.findStacjaEntities();
     }
     
-    public List<Koordynaty> getKoordynatyDrona(Drony dron){
-        //TODO!
-        return null;
-    }
+
 }

@@ -16,9 +16,6 @@ import javax.swing.table.DefaultTableModel;
  */
 public class StacjePanel extends javax.swing.JPanel {
 
-    /**
-     * Creates new form NewJPanel1
-     */
     public StacjePanel() {
         initComponents();
         kontroler = new DatabaseController();
@@ -92,5 +89,5 @@ public class StacjePanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane;
     private javax.swing.JTable jTable;
     // End of variables declaration//GEN-END:variables
-    private DatabaseController kontroler;
+    private final DatabaseController kontroler;
 }
