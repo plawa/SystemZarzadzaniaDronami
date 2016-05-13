@@ -5,7 +5,9 @@
  */
 package GUI;
 
+import com.teamdev.jxmaps.MapViewOptions;
 import coordalgorythm.CoordAlgorythm;
+import java.awt.BorderLayout;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
@@ -27,7 +29,11 @@ public class TrasyPanel extends javax.swing.JPanel {
         this.fc = new JFileChooser();       
         this.coordAlgo = new CoordAlgorythm();
         initComponents();
-
+        MapViewOptions mvo = new MapViewOptions();
+        mvo.importPlaces();
+        mapka = new MapsTest(mvo);
+        
+        
     }
 
     /**
@@ -45,6 +51,8 @@ public class TrasyPanel extends javax.swing.JPanel {
         jTextOdleglosc = new javax.swing.JTextField();
         jLabelInfoOdleglosc = new javax.swing.JLabel();
         jButtonGeneruj = new javax.swing.JButton();
+        jButtonMapa = new javax.swing.JButton();
+        jPanelMapa = new javax.swing.JPanel();
 
         javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
         jDialog1.getContentPane().setLayout(jDialog1Layout);
@@ -91,6 +99,24 @@ public class TrasyPanel extends javax.swing.JPanel {
             }
         });
 
+        jButtonMapa.setText("Pokaż mapę");
+        jButtonMapa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonMapaActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanelMapaLayout = new javax.swing.GroupLayout(jPanelMapa);
+        jPanelMapa.setLayout(jPanelMapaLayout);
+        jPanelMapaLayout.setHorizontalGroup(
+            jPanelMapaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 452, Short.MAX_VALUE)
+        );
+        jPanelMapaLayout.setVerticalGroup(
+            jPanelMapaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 333, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -99,17 +125,23 @@ public class TrasyPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addComponent(jLabelInfoOdleglosc, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(37, 37, 37)
-                        .addComponent(jTextOdleglosc, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonGeneruj, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jPanelMapa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jTextPath, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonBrowse, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)))
-                .addGap(22, 22, 22))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButtonMapa, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jTextPath, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButtonBrowse, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addGap(21, 21, 21)
+                                .addComponent(jLabelInfoOdleglosc, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(37, 37, 37)
+                                .addComponent(jTextOdleglosc, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButtonGeneruj, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(22, 22, 22))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -123,7 +155,11 @@ public class TrasyPanel extends javax.swing.JPanel {
                     .addComponent(jTextOdleglosc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelInfoOdleglosc)
                     .addComponent(jButtonGeneruj))
-                .addContainerGap(389, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButtonMapa)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanelMapa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -154,15 +190,25 @@ public class TrasyPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextOdlegloscActionPerformed
 
+    private void jButtonMapaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonMapaActionPerformed
+        mapka.setSize(500, 400);
+        mapka.setVisible(true);
+        
+        jPanelMapa.add(mapka, BorderLayout.CENTER);
+    }//GEN-LAST:event_jButtonMapaActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonBrowse;
     private javax.swing.JButton jButtonGeneruj;
+    private javax.swing.JButton jButtonMapa;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JLabel jLabelInfoOdleglosc;
+    private javax.swing.JPanel jPanelMapa;
     private javax.swing.JTextField jTextOdleglosc;
     private javax.swing.JTextField jTextPath;
     // End of variables declaration//GEN-END:variables
     private final coordalgorythm.CoordAlgorythm coordAlgo;
     private final JFileChooser fc;
+    private MapsTest mapka;
 }

@@ -2,7 +2,6 @@
 package controllers;
 
 import database.Drony;
-import database.Koordynaty;
 import database.PunktyKontrolne;
 import database.Stacja;
 import java.util.ArrayList;
