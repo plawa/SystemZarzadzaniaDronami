@@ -14,6 +14,7 @@ import java.io.File;
 import java.util.ArrayList;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -26,6 +27,7 @@ public class TrasyPanel extends javax.swing.JPanel {
      */
     public TrasyPanel() {
         this.fc = new JFileChooser();
+        this.fc.setFileFilter(new FileNameExtensionFilter("pliki *.kml", "kml"));
         this.coordAlgo = new CoordAlgorythm();
         initComponents();
 

@@ -32,7 +32,7 @@ public class MainFrame extends javax.swing.JFrame {
         jTabbedPane1.addTab("Drony", dronyPanel1);
         jTabbedPane1.addTab("Stacje", stacjePanel1);
         jTabbedPane1.addTab("Punkty kontrolne", punktyKontrolnePanel);
-        jTabbedPane1.addTab("Trasy", trasyPanel1);
+        jTabbedPane1.addTab("Dodawanie trasy", trasyPanel1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

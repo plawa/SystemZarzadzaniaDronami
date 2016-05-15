@@ -117,7 +117,6 @@ public class CoordAlgorythm {
     }
 
     public ArrayList<Coordinates> generateNewKMLFile(File file, double offset) {
-        //LatLng[] paths = null;
         setOdleglosc(offset);
 
         Path newPath = Paths.get(file.getPath() + "new.kml");
@@ -143,8 +142,6 @@ public class CoordAlgorythm {
             coordinatesBase.add(new Coordinates(x, y));
         }
 
-        //dodawanie pojedynczych koordynatów, dobre do testów:
-        //fasada.coordinatesBase.add(new Coordinates(20, 50));
         runAlgorithm();
 
         String newKoordynaty = "";
