@@ -5,16 +5,15 @@
  */
 package GUI;
 
+import coordalgorythm.GoogleMaps;
 import com.teamdev.jxmaps.MapViewOptions;
 import coordalgorythm.CoordAlgorythm;
+import coordalgorythm.Coordinates;
 import java.awt.BorderLayout;
-import java.awt.Desktop;
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.ArrayList;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -26,14 +25,10 @@ public class TrasyPanel extends javax.swing.JPanel {
      * Creates new form TrasyPanel
      */
     public TrasyPanel() {
-        this.fc = new JFileChooser();       
+        this.fc = new JFileChooser();
         this.coordAlgo = new CoordAlgorythm();
         initComponents();
-        MapViewOptions mvo = new MapViewOptions();
-        mvo.importPlaces();
-        mapka = new MapsTest(mvo);
-        
-        
+
     }
 
     /**
@@ -46,13 +41,15 @@ public class TrasyPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         jDialog1 = new javax.swing.JDialog();
-        jTextPath = new javax.swing.JTextField();
         jButtonBrowse = new javax.swing.JButton();
         jTextOdleglosc = new javax.swing.JTextField();
         jLabelInfoOdleglosc = new javax.swing.JLabel();
         jButtonGeneruj = new javax.swing.JButton();
-        jButtonMapa = new javax.swing.JButton();
         jPanelMapa = new javax.swing.JPanel();
+        jLabelBrowse = new javax.swing.JLabel();
+        jButtonDodaj = new javax.swing.JButton();
+        jButtonOdrzuc = new javax.swing.JButton();
+        jTextNazwa = new javax.swing.JTextField();
 
         javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
         jDialog1.getContentPane().setLayout(jDialog1Layout);
@@ -66,13 +63,6 @@ public class TrasyPanel extends javax.swing.JPanel {
         );
 
         setPreferredSize(new java.awt.Dimension(472, 452));
-
-        jTextPath.setText("wprowadź ścieżkę do pliku .kml z zapisanym śladem trasy");
-        jTextPath.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                jTextPathFocusGained(evt);
-            }
-        });
 
         jButtonBrowse.setText("Przeglądaj...");
         jButtonBrowse.addActionListener(new java.awt.event.ActionListener() {
@@ -99,23 +89,42 @@ public class TrasyPanel extends javax.swing.JPanel {
             }
         });
 
-        jButtonMapa.setText("Pokaż mapę");
-        jButtonMapa.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonMapaActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanelMapaLayout = new javax.swing.GroupLayout(jPanelMapa);
         jPanelMapa.setLayout(jPanelMapaLayout);
         jPanelMapaLayout.setHorizontalGroup(
             jPanelMapaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 452, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         jPanelMapaLayout.setVerticalGroup(
             jPanelMapaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 333, Short.MAX_VALUE)
+            .addGap(0, 340, Short.MAX_VALUE)
         );
+
+        jLabelBrowse.setText("wskaż plik *.kml zawierający trasę, którą chcesz przesunąć");
+
+        jButtonDodaj.setText("Dodaj do bazy");
+        jButtonDodaj.setEnabled(false);
+        jButtonDodaj.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDodajActionPerformed(evt);
+            }
+        });
+
+        jButtonOdrzuc.setText("Odrzuć trasę");
+        jButtonOdrzuc.setEnabled(false);
+        jButtonOdrzuc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonOdrzucActionPerformed(evt);
+            }
+        });
+
+        jTextNazwa.setText("podaj nazwę trasy...");
+        jTextNazwa.setEnabled(false);
+        jTextNazwa.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTextNazwaFocusGained(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -124,42 +133,46 @@ public class TrasyPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanelMapa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanelMapa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButtonMapa, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jTextPath, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButtonBrowse, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGap(21, 21, 21)
-                                .addComponent(jLabelInfoOdleglosc, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(37, 37, 37)
-                                .addComponent(jTextOdleglosc, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButtonGeneruj, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGap(22, 22, 22))))
+                                .addComponent(jLabelInfoOdleglosc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jTextOdleglosc, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabelBrowse, javax.swing.GroupLayout.DEFAULT_SIZE, 329, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButtonGeneruj, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButtonBrowse, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jButtonOdrzuc)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jTextNazwa, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonDodaj)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextPath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonBrowse))
+                    .addComponent(jButtonBrowse)
+                    .addComponent(jLabelBrowse))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextOdleglosc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelInfoOdleglosc)
                     .addComponent(jButtonGeneruj))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButtonMapa)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanelMapa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanelMapa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonDodaj)
+                    .addComponent(jButtonOdrzuc)
+                    .addComponent(jTextNazwa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -170,45 +183,72 @@ public class TrasyPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jButtonBrowseActionPerformed
 
-    private void jTextPathFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextPathFocusGained
-       jTextPath.setText("");
-    }//GEN-LAST:event_jTextPathFocusGained
-
     private void jButtonGenerujActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGenerujActionPerformed
-        try {
-            File selectedFile = fc.getSelectedFile();
-            double odleglosc = Double.parseDouble(jTextOdleglosc.getText())/70000.0  ;
-            coordAlgo.generateNewKMLFile(selectedFile, odleglosc);
-            Desktop.getDesktop().open(Paths.get(selectedFile.getPath() + "new.kml").toFile());
-            jButtonGeneruj.setEnabled(false);
-        } catch (IOException ex) {
-            Logger.getLogger(TrasyPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        if (coordAlgo == null)
+            coordAlgo = new CoordAlgorythm();
+        File selectedFile = fc.getSelectedFile();
+        double odleglosc = Double.parseDouble(jTextOdleglosc.getText()) / 70000.0;
+        ArrayList<Coordinates> newCoords = coordAlgo.generateNewKMLFile(selectedFile, odleglosc);
+        jButtonBrowse.setEnabled(false);
+        jButtonGeneruj.setEnabled(false);
+        jTextNazwa.setEnabled(true);
+        jButtonOdrzuc.setEnabled(true);
+
+        MapViewOptions mvo = new MapViewOptions();
+        mvo.importPlaces();
+        mapka = new GoogleMaps(mvo, newCoords);
+        mapka.setSize(460, 340);
+        mapka.setVisible(true);
+
+        jPanelMapa.add(mapka, BorderLayout.CENTER);
     }//GEN-LAST:event_jButtonGenerujActionPerformed
 
     private void jTextOdlegloscActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextOdlegloscActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextOdlegloscActionPerformed
 
-    private void jButtonMapaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonMapaActionPerformed
-        mapka.setSize(500, 400);
-        mapka.setVisible(true);
+    private void jButtonOdrzucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOdrzucActionPerformed
+        jButtonBrowse.setEnabled(true);
+        jButtonDodaj.setEnabled(false);
+        jButtonOdrzuc.setEnabled(false);
+
+        jPanelMapa.remove(mapka);
+        mapka = null;
+        coordAlgo = null;
+    }//GEN-LAST:event_jButtonOdrzucActionPerformed
+
+    private void jButtonDodajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDodajActionPerformed
+        jButtonBrowse.setEnabled(true);
+        jButtonDodaj.setEnabled(false);
+        jButtonOdrzuc.setEnabled(false);
+        jTextNazwa.setEnabled(false);
         
-        jPanelMapa.add(mapka, BorderLayout.CENTER);
-    }//GEN-LAST:event_jButtonMapaActionPerformed
+        JOptionPane.showMessageDialog(this, "Funkcjonalność aktualnie rozwijana", "Błąd!", 0);
+        
+        jPanelMapa.remove(mapka);
+        mapka = null;
+        coordAlgo = null;
+    }//GEN-LAST:event_jButtonDodajActionPerformed
+
+    private void jTextNazwaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextNazwaFocusGained
+        jTextNazwa.setText("");
+        jButtonDodaj.setEnabled(true);
+    }//GEN-LAST:event_jTextNazwaFocusGained
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonBrowse;
+    private javax.swing.JButton jButtonDodaj;
     private javax.swing.JButton jButtonGeneruj;
-    private javax.swing.JButton jButtonMapa;
+    private javax.swing.JButton jButtonOdrzuc;
     private javax.swing.JDialog jDialog1;
+    private javax.swing.JLabel jLabelBrowse;
     private javax.swing.JLabel jLabelInfoOdleglosc;
     private javax.swing.JPanel jPanelMapa;
+    private javax.swing.JTextField jTextNazwa;
     private javax.swing.JTextField jTextOdleglosc;
-    private javax.swing.JTextField jTextPath;
     // End of variables declaration//GEN-END:variables
-    private final coordalgorythm.CoordAlgorythm coordAlgo;
+    private coordalgorythm.CoordAlgorythm coordAlgo;
     private final JFileChooser fc;
-    private MapsTest mapka;
+    private GoogleMaps mapka;
 }

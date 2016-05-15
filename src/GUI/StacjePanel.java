@@ -8,6 +8,7 @@ package GUI;
 import controllers.DatabaseController;
 import database.Stacja;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -70,10 +71,25 @@ public class StacjePanel extends javax.swing.JPanel {
         }
 
         jButtonDodaj.setText("Zarejestruj nową stację");
+        jButtonDodaj.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDodajActionPerformed(evt);
+            }
+        });
 
         jButtonUsun.setText("Wyrejestruj zaznaczoną stację");
+        jButtonUsun.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonUsunActionPerformed(evt);
+            }
+        });
 
         jButtonInfo.setText("Więcej informacji");
+        jButtonInfo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonInfoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -106,6 +122,21 @@ public class StacjePanel extends javax.swing.JPanel {
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButtonUsunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUsunActionPerformed
+        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(this, "Funkcjonalność aktualnie rozwijana", "Błąd!", 0);
+    }//GEN-LAST:event_jButtonUsunActionPerformed
+
+    private void jButtonInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonInfoActionPerformed
+        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(this, "Funkcjonalność aktualnie rozwijana", "Błąd!", 0);
+    }//GEN-LAST:event_jButtonInfoActionPerformed
+
+    private void jButtonDodajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDodajActionPerformed
+        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(this, "Funkcjonalność aktualnie rozwijana", "Błąd!", 0);
+    }//GEN-LAST:event_jButtonDodajActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -8,6 +8,7 @@ package GUI;
 import controllers.DatabaseController;
 import database.Drony;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -21,25 +22,25 @@ public class DronyPanel extends javax.swing.JPanel {
         kontroler = new DatabaseController();
         refreshTableContent();
     }
-    
-    private void refreshTableContent(){
+
+    private void refreshTableContent() {
         DefaultTableModel model = (DefaultTableModel) jTable.getModel();
 
         List<Drony> drony = kontroler.getAllDrony();
-        for (Drony dron : drony){
+        for (Drony dron : drony) {
             String nazwa = "brak danych";
-            if (dron.getParametryDronow() != null)
+            if (dron.getParametryDronow() != null) {
                 nazwa = dron.getParametryDronow().getModel();
+            }
             String stacja = dron.getIDstacji().getNazwastacji();
             Float przebieg = dron.getPrzebieg();
-            boolean czyAktywny = dron.getCzyAktywny()!=0;
-            boolean czyZadokowany = dron.getCzyZadokowany()!=0;
-            
-            model.addRow(new Object[]{nazwa, stacja, przebieg, czyAktywny, czyZadokowany });
+            boolean czyAktywny = dron.getCzyAktywny() != 0;
+            boolean czyZadokowany = dron.getCzyZadokowany() != 0;
+
+            model.addRow(new Object[]{nazwa, stacja, przebieg, czyAktywny, czyZadokowany});
         }
-        
+
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -101,6 +102,11 @@ public class DronyPanel extends javax.swing.JPanel {
         });
 
         jButtonPowrot.setText("Wydaj polecenie powrotu do bazy");
+        jButtonPowrot.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonPowrotActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -135,11 +141,18 @@ public class DronyPanel extends javax.swing.JPanel {
 
     private void jButtonDodajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDodajActionPerformed
         // TODO add your handling code here:
+        JOptionPane.showMessageDialog(this, "Funkcjonalność aktualnie rozwijana", "Błąd!", 0);
     }//GEN-LAST:event_jButtonDodajActionPerformed
 
     private void jButtonUsunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUsunActionPerformed
         // TODO add your handling code here:
+        JOptionPane.showMessageDialog(this, "Funkcjonalność aktualnie rozwijana", "Błąd!", 0);
     }//GEN-LAST:event_jButtonUsunActionPerformed
+
+    private void jButtonPowrotActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPowrotActionPerformed
+        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(this, "Funkcjonalność aktualnie rozwijana", "Błąd!", 0);
+    }//GEN-LAST:event_jButtonPowrotActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

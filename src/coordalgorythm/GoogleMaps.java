@@ -1,4 +1,4 @@
-package GUI;
+package coordalgorythm;
 
 import com.teamdev.jxmaps.ControlPosition;
 import com.teamdev.jxmaps.LatLng;
@@ -12,6 +12,7 @@ import com.teamdev.jxmaps.Polyline;
 import com.teamdev.jxmaps.PolylineOptions;
 import com.teamdev.jxmaps.swing.MapView;
 import java.awt.BorderLayout;
+import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
@@ -19,9 +20,9 @@ import javax.swing.WindowConstants;
  *
  * @author Piotrek
  */
-public class MapsTest extends MapView {
+public class GoogleMaps extends MapView {
 
-    public MapsTest(MapViewOptions options) {
+    public GoogleMaps(MapViewOptions options, ArrayList<Coordinates> newCoords) {
         super(options);
         setOnMapReadyHandler(new MapReadyHandler() {
             @Override
@@ -41,18 +42,19 @@ public class MapsTest extends MapView {
                     // Setting map options
                     map.setOptions(mapOptions);
                     // Setting the map center
-                    map.setCenter(new LatLng(map, 0, -180));
+                    map.setCenter(new LatLng(map, 51.059258, 16.373292));
                     // Setting initial zoom value
-                    map.setZoom(3.0);
+                    map.setZoom(8.0);
                     // Creating a path (array of coordinates) that represents a polyline
-                    LatLng[] path = {new LatLng(map, 37.772, -122.214),
-                        new LatLng(map, 21.291, -157.821),
-                        new LatLng(map, -18.142, 178.431),
-                        new LatLng(map, -57.467, -173.027)};
-                    // Creating a new polyline object
+                    
+                    ArrayList<LatLng> path = new ArrayList<>();
+                    for (Coordinates newCoord : newCoords) {
+                        path.add(new LatLng(map, newCoord.getY(), newCoord.getX()));
+                    }
+                    
                     Polyline polyline = new Polyline(map);
                     // Initializing the polyline with created path
-                    polyline.setPath(path);
+                    polyline.setPath(path.toArray(new LatLng[newCoords.size()]));
                     // Creating a polyline options object
                     PolylineOptions options = new PolylineOptions(map);
                     // Setting geodesic property value
@@ -72,9 +74,17 @@ public class MapsTest extends MapView {
     }
 
     public static void main(String[] args) {
+        //funkcja main z kodem do testowania
+        ArrayList<Coordinates> testowe = new ArrayList<>();
+        testowe.add(new Coordinates(10.0, 11.0));
+        testowe.add(new Coordinates(12, 12.0));
+        testowe.add(new Coordinates(10.2, 14.0));
+        testowe.add(new Coordinates(10.3, 11.0));
+        testowe.add(new Coordinates(10.4, 11.0));
+        testowe.add(new Coordinates(20.5, 11.0));
         MapViewOptions options = new MapViewOptions();
         options.importPlaces();
-        final MapsTest mapView = new MapsTest(options);
+        final GoogleMaps mapView = new GoogleMaps(options, testowe);
 
         JFrame frame = new JFrame("JxMaps - Hello, World!");
 
@@ -85,6 +95,4 @@ public class MapsTest extends MapView {
         frame.setVisible(true);
 
     }
-
-
 }

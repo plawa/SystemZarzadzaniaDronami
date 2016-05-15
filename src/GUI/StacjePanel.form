@@ -104,16 +104,25 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Zarejestruj now&#x105; stacj&#x119;"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonDodajActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jButtonUsun">
       <Properties>
         <Property name="text" type="java.lang.String" value="Wyrejestruj zaznaczon&#x105; stacj&#x119;"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonUsunActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jButtonInfo">
       <Properties>
         <Property name="text" type="java.lang.String" value="Wi&#x119;cej informacji"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonInfoActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
