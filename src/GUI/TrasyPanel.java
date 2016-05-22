@@ -225,7 +225,8 @@ public class TrasyPanel extends javax.swing.JPanel {
         jButtonOdrzuc.setEnabled(false);
         jTextNazwa.setEnabled(false);
         
-        JOptionPane.showMessageDialog(this, "Funkcjonalność aktualnie rozwijana", "Błąd!", 0);
+        coordAlgo.generateMissionFile(fc.getSelectedFile());
+        JOptionPane.showMessageDialog(this, "Na potrzeby testów wygenerowano plik *.waypoints");
         
         jPanelMapa.remove(mapka);
         mapka = null;

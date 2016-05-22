@@ -160,6 +160,24 @@ public class CoordAlgorythm {
         return coordinatesNewBase;
     }
 
+    public void generateMissionFile(File file) {
+        Path newPath = Paths.get(file.getPath() + ".waypoints");
+        
+        String content = "QGC WPL 110\n0\t1\t0\t16\t0\t0\t0\t0\t"; //initial string
+        content += coordinatesNewBase.get(0).getY() + "\t" + coordinatesNewBase.get(0).getX() + "\t100.000000\t1\n";
+                
+        for (int i = 1; i < coordinatesNewBase.size(); i++) {
+            Coordinates co = coordinatesNewBase.get(i);
+            content += i + "\t0\t3\t16\t0\t0\t0\t0\t" + co.getY() + "\t" + co.getX() + "\t100.000000\t1\n";
+        }
+        Charset charset = StandardCharsets.UTF_8;
+        try {
+            Files.write(newPath, content.getBytes(charset));
+        } catch (IOException ex) {
+            Logger.getLogger(CoordAlgorythm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     public static void main(String[] args) {
         CoordAlgorythm fasada = new CoordAlgorythm();
 
